@@ -15,7 +15,7 @@ class Entertainment extends Component {
     componentWillReceiveProps=(nextProps)=>{
         let list = []
         for(let i=0;i<nextProps.items.length; i++){
-            if(nextProps.items[i].category == 'Entertainment'){
+            if(nextProps.items[i].category === 'Entertainment'){
                 list.push(nextProps.items[i]);
             }
         }
@@ -47,9 +47,9 @@ class Entertainment extends Component {
         }
         return(
             <div 
-                id='Entertainment'
-                onClick={(e)=>this.toggleEntertainment(e)}>
-                <h3>Entertainment (total left: {160+(this.state.total)})</h3>
+                id='Entertainment'>
+                <h3
+                onClick={(e)=>this.toggleEntertainment(e)}>Entertainment (total left: {(this.state.total.toFixed(2))})</h3>
                 {entertainmentList}
             </div>
         )

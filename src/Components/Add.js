@@ -6,8 +6,8 @@ class Add extends Component {
         this.state = {
             description: '',
             amount: '',
-            category:'',
-            expense: ''
+            category:'Income',
+            expense: 'income',
         }
         this.itemRef = this.props.firebase.database().ref('items/');
     }
@@ -27,16 +27,14 @@ class Add extends Component {
         this.setState({
             category: e.target.value
         })
-        console.log(this.state.category)
+        console.log(e.target.value)
     }
 
     handleChangeExpense=(e)=> {
-        let value = e.target.value;
         this.setState({
-            expense: value
+            expense: e.target.value
         })
-    
-        console.log(this.state.expense)
+        console.log(e.target.value)
     }
     convertTimestamp = (timestamp) => {
         var d = new Date(timestamp),	// Convert the passed timestamp to milliseconds
@@ -57,24 +55,29 @@ class Add extends Component {
         } else if (hh === 0) {
           h = 12;
         }
-        
-        // ie: 2013-02-18, 8:35 AM	
+        // ie: 02/18 8:35 AM	
         time = mm + '/' + dd + " " + h + ':' + min + ' ' + ampm;
         return time;
       }
 
-    add = (newItem) => {
-        this.props.onAdd(this.state.description, this.state.amount);
+
+    add = () => {
+        let amount=this.state.amount
+        if(this.state.expense==='income'){amount = Number(amount)}
+        else if(this.state.expense === 'expense'){amount=Number(amount)*-1}
+        
         var submitData = {
-            amount: this.state.amount,
+            amount: amount,
             description: this.state.description,
             category: this.state.category,
             time: this.convertTimestamp(Date.now()),
+            expense: this.state.expense,
         };
+        console.log(submitData)
         var newItemKey = this.itemRef.push().key;
         var updates = {};
         updates['/items/' + newItemKey] = submitData;
-        if (submitData.amount.length === 0 ||submitData.description.length === 0) {
+        if (submitData.amount.length === 0 ||submitData.description.length === 0 || submitData.expense==='' || submitData.category===''){
             alert('One or more missing fields.')
         }
         else if (isNaN(submitData.amount)) {
@@ -84,40 +87,53 @@ class Add extends Component {
             alert('Description should be text.')
         } 
         else {
-            this.setState({ description: '', amount: ''});
-            return this.props.firebase.database().ref().update(updates);
+            this.props.firebase.database().ref().update(updates);
+            this.setState({ description: '', amount: '', category: 'Income', expense: 'income'});
+            
         }
     }
 
     render() {
+        const style = {width: '45px',}
         return (
             <div>
                 <form
+                
                     onSubmit={(e) => { e.preventDefault(); this.add()}}>
-                    <select name='expense'
-                        onChange={this.handleChangeExpense}>
-                        <option value='choose'>Income/Expense</option>
-                        <option value='income'>Income</option>
-                        <option value='expense'>Expense</option>
-                    </select>
-                    <input type='text' 
-                        placeholder='Amount'
-                        value={this.state.amount}
-                        onChange={this.handleChangeAmt} />
                     <input type='text' 
                         placeholder='Description' 
+                        
                         value={this.state.description}
                         onChange={this.handleChangeDesc}
                         />
-                        <select name="categories"
-                                onChange={this.handleChangeCat}>
-                            <option value="choose">Categories..</option>
+
+                    <input type='text' 
+                        placeholder='Amount'
+                        style={style}
+                        value={this.state.amount}
+                        onChange={this.handleChangeAmt} />
+                        
+                        <select name='expense'
+                        onChange={this.handleChangeExpense}
+                        value={this.state.expense}
+                        >
+                        <option value='income'>Income</option>
+                        <option value='expense'>Expense</option>
+                        </select>
+
+                        <select 
+                            name="categories"      
+                            onChange={this.handleChangeCat}
+                            value={this.state.category}
+                            >
+                            <option value="Income">Income</option>
                             <option value="Gas">Gas</option>
                             <option value="Groceries">Groceries</option>
                             <option value='Restaurant'>Restaurant</option>
                             <option value="Entertainment">Entertainment</option>
                         </select>
-                    <input type='submit'/>
+                    <input 
+                        type='submit'/>
                 </form>
             </div> 
         )

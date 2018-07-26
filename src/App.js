@@ -43,14 +43,9 @@ class App extends Component {
          this.getTotal
          //this is my callback^^ allows items to load, then calls getTotal! hooray
         );
-        console.log(this.state.items)
     })
-    
   };
 
-  add (description, amount) {
-    //ajax POST request to server
-  }
 
   render() {
     return (
@@ -58,7 +53,7 @@ class App extends Component {
         <h1>My Monthly Budget</h1>
         <Add
           firebase={firebase}
-          onAdd={this.add} />
+           />
         <TransactionList  
           firebase={firebase}
           items={this.state.items} />

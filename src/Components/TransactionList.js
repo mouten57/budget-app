@@ -4,6 +4,7 @@ import Groceries from './Groceries';
 import Gas from './Gas';
 import Restaurants from './Restaurants';
 import Entertainment from './Entertainment';
+import Income from './Income';
 
 class TransactionList extends Component {
     constructor(props) {
@@ -35,9 +36,11 @@ class TransactionList extends Component {
                 </div>
             )
         }
+        const style={textDecoration:'underline'}
     return (
         <div>
-            <h1>Transactions</h1>
+            <h2 style={style}>Transactions</h2>
+           
             <Groceries 
                 firebase={this.props.firebase}
                 items={this.state.items}/>
@@ -50,8 +53,8 @@ class TransactionList extends Component {
             <Entertainment
                 firebase={this.props.firebase}
                 items={this.state.items} />
-            <div onClick={this.toggleAll}>
-                <h3>All Transactions</h3>
+            <div>
+                <h3 onClick={this.toggleAll}>All Transactions</h3>
                 {all}  
             </div>
         </div>

@@ -15,7 +15,7 @@ class Gas extends Component {
     componentWillReceiveProps=(nextProps)=>{
         let list = []
         for(let i=0;i<nextProps.items.length; i++){
-            if(nextProps.items[i].category == 'Gas'){
+            if(nextProps.items[i].category === 'Gas'){
                 list.push(nextProps.items[i]);
             }
         }
@@ -47,9 +47,9 @@ class Gas extends Component {
         return(
 
         <div 
-            id='Gas'
-            onClick={(e)=>this.toggleGas(e)}>
-            <h3>Gas (total left: {600+(this.state.total)})</h3>
+            id='Gas'>
+            <h3
+            onClick={(e)=>this.toggleGas(e)}>Gas (total left: {(this.state.total.toFixed(2))})</h3>
             {gasList}
         </div>
         )

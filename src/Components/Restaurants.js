@@ -14,7 +14,7 @@ class Restaurants extends Component {
     componentWillReceiveProps=(nextProps)=>{
         let list = []
         for(let i=0;i<nextProps.items.length; i++){
-            if(nextProps.items[i].category == 'Restaurant'){
+            if(nextProps.items[i].category === 'Restaurant'){
                 list.push(nextProps.items[i]);
             }
         }
@@ -48,9 +48,9 @@ class Restaurants extends Component {
         }
         return(
             <div 
-                id='Restaurant'
-                onClick={(e)=>this.toggleRestaurant(e)}>
-                <h3>Restaurants (total left: {200+(this.state.total)})</h3> 
+                id='Restaurant'>
+                <h3
+                onClick={(e)=>this.toggleRestaurant(e)}>Restaurants (total left: {(this.state.total.toFixed(2))})</h3> 
                     {restaurantList}
             </div>
         )}
