@@ -6,40 +6,50 @@ class Groceries extends Component {
         super(props);
         this.state = {
             groceryList: [],
-            showGroceries: false,
+            isHidden: true,
             
         }
         this.itemRef = this.props.firebase.database().ref('items/');
     }
-    componentDidMount() {
-        this.showGroceryTransactions();      
-    }
-    showGroceryTransactions=(e)=> {
-        let groceryList=[];
-        for (let i=0; i<this.props.items.length; i++){
-            if(this.props.items[i].category === 'Groceries' && this.state.showGroceries){
-                groceryList.push(this.props.items[i])
+    componentWillReceiveProps=(nextProps)=>{
+        let list = []
+        for(let i=0;i<nextProps.items.length; i++){
+            if(nextProps.items[i].category == 'Groceries'){
+                list.push(nextProps.items[i]);
             }
-        }   
-        this.setState({ groceryList: groceryList}, this.toggleGroceries)
+        }
+        this.setState({ groceryList: list})
+        this.getTotal(list)
     }
     toggleGroceries=()=>{
-        const doesShow=this.state.showGroceries;
-        this.setState({showGroceries: !doesShow})
-    }   
-
+        this.setState({isHidden: !this.state.isHidden})
+    } 
+    getTotal=(list)=>{
+        this.setState({total: list.reduce( (a,b) => {
+            return a + Number(b.amount);
+          }, 0)
+          })      
+    }
     render(){
+        let groceryList = null;
+        if (!this.state.isHidden) {
+            groceryList = (
+                <div>
+                {this.state.groceryList.map(item => 
+                <TransactionListEntry   
+                transaction={item}
+                key={item.key} />
+                )}
+                </div>
+            )
+        }
         return(
 
         <div 
             id='Groceries'
-            onClick={(e)=>this.showGroceryTransactions(e)}>
-            <h3>Groceries</h3>
-            {this.state.groceryList.map(item => 
-            <TransactionListEntry   
-                transaction={item}
-                key={item.key} />
-                )}
+            onClick={(e)=>this.toggleGroceries(e)}>
+            <h3>Groceries (total left: {480+(this.state.total)})</h3>
+            {groceryList}     
         </div>
         )
     }   

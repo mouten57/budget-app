@@ -7,45 +7,51 @@ class Restaurants extends Component {
         this.state = {
             total: 0,
             restaurantList: [],
-            showRestaurants: false,
-            
+            isHidden: true,       
         }
         this.itemRef = this.props.firebase.database().ref('items/');
     }
-    componentDidMount() {
-        this.showRestaurantTransactions(); 
-    }
-    showRestaurantTransactions=(e)=> {
-        let restaurantList=[];
-        for (let i=0; i<this.props.items.length; i++){
-            if(this.props.items[i].category === 'Restaurant' && this.state.showRestaurants){
-                restaurantList.push(this.props.items[i])
+    componentWillReceiveProps=(nextProps)=>{
+        let list = []
+        for(let i=0;i<nextProps.items.length; i++){
+            if(nextProps.items[i].category == 'Restaurant'){
+                list.push(nextProps.items[i]);
             }
-        }   
-        this.setState({ restaurantList: restaurantList}, this.toggleRestaurants
-        )
+        }
+        this.setState({ restaurantList: list})
+        this.getTotal(list)
     }
-    toggleRestaurants=()=>{
-        const doesShow=this.state.showRestaurants;
-        this.setState({showRestaurants: !doesShow})
-    }   
 
-    getTotal=()=> {
-        
-      }
+    toggleRestaurant=()=>{
+        this.setState({isHidden: !this.state.isHidden})
+    }    
+
+    getTotal=(list)=>{
+        this.setState({total: list.reduce( (a,b) => {
+            return a + Number(b.amount);
+          }, 0)
+          })      
+    }
 
     render() {
-        return(
-            <div 
-                id='Restaurant'
-                onClick={(e)=>this.showRestaurantTransactions(e)}>
-                <h3>Restaurants</h3> 
-                <p>Total:{this.state.total}</p>
-                    {this.state.restaurantList.map(item => 
+        let restaurantList = null;
+        if (!this.state.isHidden) {
+            restaurantList = (
+                <div>
+                {this.state.restaurantList.map(item => 
                     <TransactionListEntry   
                         transaction={item}
                         key={item.key} />
                     )}
+                </div>
+            )
+        }
+        return(
+            <div 
+                id='Restaurant'
+                onClick={(e)=>this.toggleRestaurant(e)}>
+                <h3>Restaurants (total left: {200+(this.state.total)})</h3> 
+                    {restaurantList}
             </div>
         )}
 }

@@ -6,40 +6,51 @@ class Entertainment extends Component {
         super(props);
         this.state = {
             entertainmentList: [],
-            showEntertainment: false,
+            isHidden: true,
+            total: 0,
             
         }
         this.itemRef = this.props.firebase.database().ref('items/');
     }
-    componentDidMount() {
-        this.showEntertainmentTransactions();      
-    }
-
-    showEntertainmentTransactions=(e)=> {
-        let entertainmentList=[];
-        for (let i=0; i<this.props.items.length; i++){
-            if(this.props.items[i].category === 'Entertainment' && this.state.showEntertainment){
-                entertainmentList.push(this.props.items[i])
+    componentWillReceiveProps=(nextProps)=>{
+        let list = []
+        for(let i=0;i<nextProps.items.length; i++){
+            if(nextProps.items[i].category == 'Entertainment'){
+                list.push(nextProps.items[i]);
             }
-        }   
-        this.setState({ entertainmentList: entertainmentList}, this.toggleEntertainment)
+        }
+        this.setState({ entertainmentList: list})
+        this.getTotal(list)
     }
     toggleEntertainment=()=>{
-        const doesShow=this.state.showEntertainment;
-        this.setState({showEntertainment: !doesShow})
+        this.setState({isHidden: !this.state.isHidden})
     }   
+    getTotal=(list)=>{
+        this.setState({total: list.reduce( (a,b) => {
+            return a + Number(b.amount);
+          }, 0)
+          })      
+    }
 
     render() {
-        return(
-            <div 
-                id='Entertainment'
-                onClick={(e)=>this.showEntertainmentTransactions(e)}>
-                <h3>Entertainment</h3>
+        let entertainmentList = null;
+        if (!this.state.isHidden) {
+            entertainmentList = (
+                <div>
                 {this.state.entertainmentList.map(item => 
                     <TransactionListEntry   
                         transaction={item}
                         key={item.key} />
                 )}
+                </div>
+            )
+        }
+        return(
+            <div 
+                id='Entertainment'
+                onClick={(e)=>this.toggleEntertainment(e)}>
+                <h3>Entertainment (total left: {160+(this.state.total)})</h3>
+                {entertainmentList}
             </div>
         )
     }

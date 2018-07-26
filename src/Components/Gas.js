@@ -6,42 +6,51 @@ class Gas extends Component {
         super(props);
         this.state = {
             gasList: [],
-            showGas: false,
+            isHidden: true,
+            total: 0,
             
         }
         this.itemRef = this.props.firebase.database().ref('items/');
     }
-    componentDidMount() {
-       
-        this.showGasTransactions();      
-    }
-    showGasTransactions=(e)=> {
-        let gasList=[];
-        for (let i=0; i<this.props.items.length; i++){
-            if(this.props.items[i].category === 'Gas' && this.state.showGas){
-                gasList.push(this.props.items[i])
+    componentWillReceiveProps=(nextProps)=>{
+        let list = []
+        for(let i=0;i<nextProps.items.length; i++){
+            if(nextProps.items[i].category == 'Gas'){
+                list.push(nextProps.items[i]);
             }
-        }   
-        this.setState({ gasList: gasList}, this.toggleGas
-        )
+        }
+        this.setState({ gasList: list})
+        this.getTotal(list)
     }
     toggleGas=()=>{
-        const doesShow=this.state.showGas;
-        this.setState({showGas: !doesShow})
+        this.setState({isHidden: !this.state.isHidden})
     }   
-
+    getTotal=(list)=>{
+        this.setState({total: list.reduce( (a,b) => {
+            return a + Number(b.amount);
+          }, 0)
+          })      
+    }
     render(){
+        let gasList = null;
+        if (!this.state.isHidden) {
+            gasList = (
+                <div>
+                {this.state.gasList.map(item => 
+                <TransactionListEntry   
+                transaction={item}
+                key={item.key} />
+                )}
+                </div>
+            )
+        }
         return(
 
         <div 
             id='Gas'
-            onClick={(e)=>this.showGasTransactions(e)}>
-            <h3>Gas</h3>
-            {this.state.gasList.map(item => 
-            <TransactionListEntry   
-                transaction={item}
-                key={item.key} />
-                )}
+            onClick={(e)=>this.toggleGas(e)}>
+            <h3>Gas (total left: {600+(this.state.total)})</h3>
+            {gasList}
         </div>
         )
     }   

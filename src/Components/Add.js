@@ -6,7 +6,8 @@ class Add extends Component {
         this.state = {
             description: '',
             amount: '',
-            category:''
+            category:'',
+            expense: ''
         }
         this.itemRef = this.props.firebase.database().ref('items/');
     }
@@ -21,11 +22,21 @@ class Add extends Component {
         this.setState({
             amount: e.target.value
         });
-    }
+}
     handleChangeCat=(e)=> {
         this.setState({
             category: e.target.value
         })
+        console.log(this.state.category)
+    }
+
+    handleChangeExpense=(e)=> {
+        let value = e.target.value;
+        this.setState({
+            expense: value
+        })
+    
+        console.log(this.state.expense)
     }
     convertTimestamp = (timestamp) => {
         var d = new Date(timestamp),	// Convert the passed timestamp to milliseconds
@@ -83,6 +94,12 @@ class Add extends Component {
             <div>
                 <form
                     onSubmit={(e) => { e.preventDefault(); this.add()}}>
+                    <select name='expense'
+                        onChange={this.handleChangeExpense}>
+                        <option value='choose'>Income/Expense</option>
+                        <option value='income'>Income</option>
+                        <option value='expense'>Expense</option>
+                    </select>
                     <input type='text' 
                         placeholder='Amount'
                         value={this.state.amount}

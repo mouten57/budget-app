@@ -18,9 +18,10 @@ firebase.initializeApp(config);
 class App extends Component {
   constructor(props) {
     super(props);  
-    this.state = {};
-    this.state.items=[];
-    this.state.total=0; 
+    this.state = {
+      items: [],
+      total: 0,
+    };
     this.itemRef = firebase.database().ref('items/');
   }
   getTotal=()=> {
@@ -42,7 +43,9 @@ class App extends Component {
          this.getTotal
          //this is my callback^^ allows items to load, then calls getTotal! hooray
         );
+        console.log(this.state.items)
     })
+    
   };
 
   add (description, amount) {
@@ -52,13 +55,13 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1>My Budget</h1>
+        <h1>My Monthly Budget</h1>
         <Add
           firebase={firebase}
           onAdd={this.add} />
         <TransactionList  
           firebase={firebase}
-          transactions={this.state.data} />
+          items={this.state.items} />
         <Balance
           total ={this.state.total} />
         

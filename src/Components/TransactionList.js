@@ -10,19 +10,31 @@ class TransactionList extends Component {
         super(props);
         this.state = {
             items: [],
+            isHidden: true,
         }
         this.itemRef = this.props.firebase.database().ref('items/');
     }
-    componentDidMount() {
-        this.itemRef.on('child_added', snapshot => {
-            const item = snapshot.val();
-            item.key=snapshot.key;
-            let items = this.state.items.concat( item );
-            this.setState({ items: items });
-        })
+    componentWillReceiveProps(nextProps) {
+        this.setState({items: nextProps.items})
+    }
+
+    toggleAll=()=>{
+        this.setState({isHidden: !this.state.isHidden})
     }
 
     render() { 
+        let all = null;
+        if (!this.state.isHidden) {
+            all = (
+                <div>
+                    {this.state.items.map( item => 
+                    <TransactionListEntry 
+                        transaction={item}
+                        key={item.key} />
+                    )}
+                </div>
+            )
+        }
     return (
         <div>
             <h1>Transactions</h1>
@@ -38,14 +50,9 @@ class TransactionList extends Component {
             <Entertainment
                 firebase={this.props.firebase}
                 items={this.state.items} />
-            <div>
+            <div onClick={this.toggleAll}>
                 <h3>All Transactions</h3>
-                {this.state.items.map( item => 
-                    <TransactionListEntry 
-                        transaction={item}
-                        key={item.key} />
-                )}
-                
+                {all}  
             </div>
         </div>
     )
