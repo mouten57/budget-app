@@ -45,10 +45,12 @@ class Entertainment extends Component {
                 </div>
             )
         }
+        let style={marginTop: '10px', marginBottom: '10px'}
         return(
             <div 
                 id='Entertainment'>
                 <h3
+                style={style}
                 onClick={(e)=>this.toggleEntertainment(e)}>Entertainment (total left: {(this.state.total.toFixed(2))})</h3>
                 {entertainmentList}
             </div>

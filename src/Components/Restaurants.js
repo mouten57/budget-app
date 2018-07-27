@@ -46,10 +46,12 @@ class Restaurants extends Component {
                 </div>
             )
         }
+        let style={marginTop: '10px', marginBottom: '10px'}
         return(
             <div 
                 id='Restaurant'>
                 <h3
+                style={style}
                 onClick={(e)=>this.toggleRestaurant(e)}>Restaurants (total left: {(this.state.total.toFixed(2))})</h3> 
                     {restaurantList}
             </div>

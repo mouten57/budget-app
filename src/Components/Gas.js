@@ -44,11 +44,13 @@ class Gas extends Component {
                 </div>
             )
         }
+        let style={marginTop: '10px', marginBottom: '10px'}
         return(
 
         <div 
             id='Gas'>
             <h3
+            style={style}
             onClick={(e)=>this.toggleGas(e)}>Gas (total left: {(this.state.total.toFixed(2))})</h3>
             {gasList}
         </div>

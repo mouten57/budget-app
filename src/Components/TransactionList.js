@@ -4,7 +4,7 @@ import Groceries from './Groceries';
 import Gas from './Gas';
 import Restaurants from './Restaurants';
 import Entertainment from './Entertainment';
-import Income from './Income';
+import MattsPersonal from './MattsPersonal';
 
 class TransactionList extends Component {
     constructor(props) {
@@ -22,25 +22,25 @@ class TransactionList extends Component {
     toggleAll=()=>{
         this.setState({isHidden: !this.state.isHidden})
     }
-
     render() { 
         let all = null;
         if (!this.state.isHidden) {
             all = (
                 <div>
-                    {this.state.items.map( item => 
+                    {this.state.items.map( (item) => 
                     <TransactionListEntry 
                         transaction={item}
-                        key={item.key} />
+                        key={item.key}
+                         />
                     )}
                 </div>
             )
         }
-        const style={textDecoration:'underline'}
+        const style={textDecoration:'underline', marginBottom:'8px'}
     return (
         <div>
             <h2 style={style}>Transactions</h2>
-           
+
             <Groceries 
                 firebase={this.props.firebase}
                 items={this.state.items}/>
@@ -51,6 +51,9 @@ class TransactionList extends Component {
                 firebase={this.props.firebase}
                 items={this.state.items} />
             <Entertainment
+                firebase={this.props.firebase}
+                items={this.state.items} />
+            <MattsPersonal
                 firebase={this.props.firebase}
                 items={this.state.items} />
             <div>

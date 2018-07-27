@@ -27,14 +27,12 @@ class Add extends Component {
         this.setState({
             category: e.target.value
         })
-        console.log(e.target.value)
     }
 
     handleChangeExpense=(e)=> {
         this.setState({
             expense: e.target.value
         })
-        console.log(e.target.value)
     }
     convertTimestamp = (timestamp) => {
         var d = new Date(timestamp),	// Convert the passed timestamp to milliseconds
@@ -73,7 +71,7 @@ class Add extends Component {
             time: this.convertTimestamp(Date.now()),
             expense: this.state.expense,
         };
-        console.log(submitData)
+
         var newItemKey = this.itemRef.push().key;
         var updates = {};
         updates['/items/' + newItemKey] = submitData;
@@ -131,6 +129,8 @@ class Add extends Component {
                             <option value="Groceries">Groceries</option>
                             <option value='Restaurant'>Restaurant</option>
                             <option value="Entertainment">Entertainment</option>
+                            <option value="Matt's Personal">Matt's Personal</option>
+
                         </select>
                     <input 
                         type='submit'/>

@@ -43,7 +43,13 @@ class App extends Component {
          this.getTotal
          //this is my callback^^ allows items to load, then calls getTotal! hooray
         );
-    })
+    });
+
+    this.itemRef.on("child_removed", snapshot => {
+      this.setState({
+        items: this.state.items.filter(item => item.key !== snapshot.key)
+      });
+    });
   };
 
 

@@ -1,42 +1,43 @@
 import React, { Component } from 'react';
 import TransactionListEntry from './TransactionListEntry';
 
-class Income extends Component {
+class MattsPersonal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            incomeList: [],
+            mattsPersonalList: [],
             isHidden: true,
             total: 0,
-            
         }
         this.itemRef = this.props.firebase.database().ref('items/');
     }
     componentWillReceiveProps=(nextProps)=>{
         let list = []
         for(let i=0;i<nextProps.items.length; i++){
-            if(nextProps.items[i].category === 'Income'){
+            if(nextProps.items[i].category === "Matt's Personal"){
                 list.push(nextProps.items[i]);
             }
         }
-        this.setState({ incomeList: list})
+        this.setState({ mattsPersonalList: list})
         this.getTotal(list)
     }
-    toggleIncome=()=>{
+   
+    toggleMattsPersonal=()=>{
         this.setState({isHidden: !this.state.isHidden})
-    }   
-    getTotal=(list)=>{
+    } 
+    getTotal=(list)=>{ 
         this.setState({total: list.reduce( (a,b) => {
             return a + Number(b.amount);
           }, 0)
           })      
     }
+
     render(){
-        let incomeList = null;
+        let mattsPersonalList = null;
         if (!this.state.isHidden) {
-            incomeList = (
+            mattsPersonalList = (
                 <div>
-                {this.state.incomeList.map(item => 
+                {this.state.mattsPersonalList.map(item => 
                 <TransactionListEntry   
                 transaction={item}
                 key={item.key} />
@@ -44,16 +45,18 @@ class Income extends Component {
                 </div>
             )
         }
+        let style={marginTop: '10px', marginBottom: '10px'}
         return(
-
         <div 
-            id='Income'
-            onClick={(e)=>this.toggleIncome(e)}>
-            <h3>Income (total: {(this.state.total)})</h3>
-            {incomeList}
+            id="MattsPersonal">
+            <h3
+            style={style}
+            onClick={(e)=>this.toggleMattsPersonal(e)}>Matt's Personal (total left: {(this.state.total.toFixed(2))})</h3>
+            {mattsPersonalList}     
         </div>
         )
     }   
 }
 
-export default Income;
+export default MattsPersonal;
+
