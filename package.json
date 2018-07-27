@@ -10,11 +10,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build":"babel . - out-dir compiled - presets=es2015,react - ignore=node_modules,compiled - source-maps inline -watch",
+    "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
+    "eject": "react-scripts eject"
   },
-  
-  "devDependencies": {}
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-react": "^6.24.1"
+  }
 }
-

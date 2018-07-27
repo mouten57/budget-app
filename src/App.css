@@ -10,7 +10,10 @@
 .App > h1 {
   padding-top: 10px;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
 
+.App2 {
+  padding: 0 auto;
 }
 
 .App-title {
