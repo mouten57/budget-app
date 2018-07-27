@@ -36,7 +36,8 @@ class TransactionList extends Component {
                 </div>
             )
         }
-        const style={textDecoration:'underline', marginBottom:'8px'}
+        const allStyle={fontFamily: 'Garamond', color:'grey'}
+        const style={textDecoration:'underline', marginBottom:'8px',fontFamily:'Garamond'}
     return (
         <div>
             <h2 style={style}>Transactions</h2>
@@ -57,7 +58,9 @@ class TransactionList extends Component {
                 firebase={this.props.firebase}
                 items={this.state.items} />
             <div>
-                <h3 onClick={this.toggleAll}>All Transactions</h3>
+                <h3
+                    style={allStyle} 
+                    onClick={this.toggleAll}>All Transactions</h3>
                 {all}  
             </div>
         </div>

@@ -46,7 +46,7 @@ class Restaurants extends Component {
                 </div>
             )
         }
-        let style={marginTop: '10px', marginBottom: '10px'}
+        let style={marginTop: '10px', marginBottom: '10px', fontFamily: 'Garamond'}
         return(
             <div 
                 id='Restaurant'>

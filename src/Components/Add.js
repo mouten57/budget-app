@@ -92,15 +92,16 @@ class Add extends Component {
     }
 
     render() {
-        const style = {width: '45px',}
+        const style = {width: '45px', margin:"2px"}
+        const style2= {margin: '2px'}
         return (
             <div>
                 <form
-                
-                    onSubmit={(e) => { e.preventDefault(); this.add()}}>
+                    onSubmit={(e) => { e.preventDefault(); this.add()}}
+                    style={style2}>
                     <input type='text' 
                         placeholder='Description' 
-                        
+                        style={style2}
                         value={this.state.description}
                         onChange={this.handleChangeDesc}
                         />
@@ -114,6 +115,7 @@ class Add extends Component {
                         <select name='expense'
                         onChange={this.handleChangeExpense}
                         value={this.state.expense}
+                        style={style2}
                         >
                         <option value='income'>Income</option>
                         <option value='expense'>Expense</option>
@@ -123,6 +125,7 @@ class Add extends Component {
                             name="categories"      
                             onChange={this.handleChangeCat}
                             value={this.state.category}
+                            style={style2}
                             >
                             <option value="Income">Income</option>
                             <option value="Gas">Gas</option>

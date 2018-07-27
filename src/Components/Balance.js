@@ -2,7 +2,8 @@ import React from 'react';
 
 const Balance = (props) => {
     var style = {
-        color: props.total > 0 ? 'green' : 'red'
+        color: props.total > 0 ? 'green' : 'red',
+        paddingBottom: '10px'
     };
     const h2style={textDecoration:'underline'}
     return (
