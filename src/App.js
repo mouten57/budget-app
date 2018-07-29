@@ -6,12 +6,12 @@ import Add from './Components/Add';
 import firebase from 'firebase';
 
 var config = {
-  apiKey: "AIzaSyCfUsJFbYA57Q0KqEepEBcUoRFEy0yi-QU",
-  authDomain: "budget-app-a22d6.firebaseapp.com",
-  databaseURL: "https://budget-app-a22d6.firebaseio.com",
-  projectId: "budget-app-a22d6",
-  storageBucket: "",
-  messagingSenderId: "158748098860"
+  apiKey: "AIzaSyBxOMfjywXa5b3_QeYCO8mLwudFhGLEbKQ",
+  authDomain: "personal-budget-app-aeac2.firebaseapp.com",
+  databaseURL: "https://personal-budget-app-aeac2.firebaseio.com",
+  projectId: "personal-budget-app-aeac2",
+  storageBucket: "personal-budget-app-aeac2.appspot.com",
+  messagingSenderId: "198205468642"
 };
 firebase.initializeApp(config);
 
