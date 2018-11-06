@@ -2,6 +2,8 @@ This is my first side project that I am attempting because I realized recently t
 
 This is a budget app. My end goal is to create something that I will use; similar to the Dave Ramsey budget using envelopes. Eventually my goal is to not withdraw so much cash to keep in envelopes, but rather keep track of everything on here!
 
+[see live](https://outen-budget.herokuapp.com/)
+
 
 
 
